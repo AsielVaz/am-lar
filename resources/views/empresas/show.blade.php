@@ -4,6 +4,7 @@
 ])
 
 @section('content')
+    @php($sociosSlots = $empresa->socios->take(3)->pad(3, null))
     <div class="detail-stack">
         <section class="panel detail-panel">
             <div class="panel-header">
@@ -102,49 +103,58 @@
                 </div>
             </div>
 
-            <div class="table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Puesto</th>
-                            <th>Nombre</th>
-                            <th>Direccion</th>
-                            <th>RFC</th>
-                            <th>Contrasena</th>
-                            <th>INE (PDF)</th>
-                            <th>CSF (PDF)</th>
-                            <th>Certificado .cer</th>
-                            <th>Llave .key</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($empresa->socios as $socio)
-                            <tr>
-                                <td>{!! filled($socio->pivot?->puesto) ? e($socio->pivot?->puesto) : '<span class="table-missing">No capturado</span>' !!}</td>
-                                <td>
-                                    @if (filled($socio->nombre) && ! auth()->user()->isUsuario())
+            <div class="slot-summary">
+                <span class="panel-chip">Slots ocupados: {{ $empresa->socios->count() }}/3</span>
+            </div>
+
+            <div class="relation-slot-grid">
+                @foreach ($sociosSlots as $index => $socio)
+                    <article class="relation-slot-card {{ $socio ? '' : 'is-empty' }}">
+                        <div class="relation-slot-header">
+                            <span class="panel-kicker">Slot {{ $index + 1 }}</span>
+                            <strong>{{ $socio ? ($socio->pivot?->puesto ?: 'Puesto pendiente') : 'Disponible' }}</strong>
+                        </div>
+
+                        @if ($socio)
+                            <div class="relation-slot-body">
+                                <h4>
+                                    @if (! auth()->user()->isUsuario())
                                         <a href="{{ route('socios.show', $socio) }}" class="document-link">{{ $socio->nombre }}</a>
-                                    @elseif (filled($socio->nombre))
-                                        {{ $socio->nombre }}
                                     @else
-                                        <span class="table-missing">No capturado</span>
+                                        {{ $socio->nombre }}
                                     @endif
-                                </td>
-                                <td>{!! filled($socio->direccion) ? e($socio->direccion) : '<span class="table-missing">No capturada</span>' !!}</td>
-                                <td>{!! filled($socio->rfc) ? e($socio->rfc) : '<span class="table-missing">No capturado</span>' !!}</td>
-                                <td>{!! filled($socio->contrasena) ? e($socio->contrasena) : '<span class="table-missing">No capturada</span>' !!}</td>
-                                <td>@include('empresas.partials.document-link', ['archivo' => $socio->ine_pdf])</td>
-                                <td>@include('empresas.partials.document-link', ['archivo' => $socio->csf_pdf])</td>
-                                <td>@include('empresas.partials.document-link', ['archivo' => $socio->certificado_cer])</td>
-                                <td>@include('empresas.partials.document-link', ['archivo' => $socio->llave_key])</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="9" class="empty-state">No hay P. Fisicas registradas.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                                </h4>
+                                <p><strong>RFC:</strong> {{ $socio->rfc ?: 'No capturado' }}</p>
+                                <p><strong>Direccion:</strong> {{ $socio->direccion ?: 'No capturada' }}</p>
+                                <p><strong>Contrasena:</strong> {{ $socio->contrasena ?: 'No capturada' }}</p>
+                            </div>
+
+                            <div class="relation-slot-files">
+                                <div>
+                                    <span class="detail-label">INE (PDF)</span>
+                                    @include('empresas.partials.document-link', ['archivo' => $socio->ine_pdf])
+                                </div>
+                                <div>
+                                    <span class="detail-label">CSF (PDF)</span>
+                                    @include('empresas.partials.document-link', ['archivo' => $socio->csf_pdf])
+                                </div>
+                                <div>
+                                    <span class="detail-label">Certificado .cer</span>
+                                    @include('empresas.partials.document-link', ['archivo' => $socio->certificado_cer])
+                                </div>
+                                <div>
+                                    <span class="detail-label">Llave .key</span>
+                                    @include('empresas.partials.document-link', ['archivo' => $socio->llave_key])
+                                </div>
+                            </div>
+                        @else
+                            <div class="relation-slot-empty">
+                                <span>Sin P. Fisica asignada</span>
+                                <p>Este slot sigue visible para mostrar que la P. Moral todavia puede tener hasta 3 personas relacionadas.</p>
+                            </div>
+                        @endif
+                    </article>
+                @endforeach
             </div>
         </section>
 

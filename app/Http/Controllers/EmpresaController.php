@@ -261,6 +261,11 @@ class EmpresaController extends Controller
 
         if ($data['assignment_action'] === 'assign') {
             $alreadyAssigned = $empresa->socios()->where('socios.id', $socio->id)->exists();
+
+            if (! $alreadyAssigned && $empresa->socios()->count() >= 3) {
+                return 'Esta P. Moral ya tiene ocupados sus 3 slots de P. Fisicas. Quita una antes de asignar otra.';
+            }
+
             $empresa->socios()->syncWithoutDetaching([
                 $socio->id => ['puesto' => $data['puesto']],
             ]);

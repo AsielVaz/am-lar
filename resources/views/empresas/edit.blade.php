@@ -5,6 +5,8 @@
 
 @section('content')
     @php($hasSociosCapturados = $empresa->socios->isNotEmpty())
+    @php($sociosSlots = $empresa->socios->take(3)->pad(3, null))
+    @php($sociosSlotsOcupados = $empresa->socios->count())
     <div class="edit-shell">
         <section class="panel panel-elevated form-panel">
             <div class="panel-header panel-header-tight">
@@ -100,55 +102,56 @@
                 </div>
 
                 <div class="form-actions form-actions-bottom">
-                    <span class="helper-text">Selecciona una P. Fisica del catalogo y presiona en asignar.</span>
+                    <span class="helper-text">Selecciona una P. Fisica y un puesto. Cada P. Moral puede tener como maximo 3 P. Fisicas asignadas.</span>
                     <button type="submit" class="button button-primary">Asignar P. Fisica</button>
                 </div>
             </form>
 
-            <div class="table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Puesto</th>
-                            <th>Nombre</th>
-                            <th>RFC</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($empresa->socios as $socio)
-                            <tr>
-                                <td>{{ $socio->pivot?->puesto ?: 'No capturado' }}</td>
-                                <td>{{ $socio->nombre }}</td>
-                                <td>{{ $socio->rfc }}</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <a href="{{ route('socios.show', $socio) }}" class="action-button action-button-view">Ver P. Fisica</a>
-                                        <form
-                                            action="{{ route('empresas.update', $empresa) }}"
-                                            method="POST"
-                                            class="inline-form"
-                                            data-confirm-form
-                                            data-confirm-title="Quitar P. Fisica"
-                                            data-confirm-message="Se quitara a {{ $socio->nombre }} de esta P. Moral."
-                                        >
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="form_section" value="partners">
-                                            <input type="hidden" name="assignment_action" value="remove">
-                                            <input type="hidden" name="socio_id" value="{{ $socio->id }}">
-                                            <button type="submit" class="action-button action-button-delete">Quitar</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="empty-state">Esta P. Moral aun no tiene P. Fisicas asignadas.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+            <div class="slot-summary">
+                <span class="panel-chip">Slots ocupados: {{ $sociosSlotsOcupados }}/3</span>
+            </div>
+
+            <div class="relation-slot-grid">
+                @foreach ($sociosSlots as $index => $socio)
+                    <article class="relation-slot-card {{ $socio ? '' : 'is-empty' }}">
+                        <div class="relation-slot-header">
+                            <span class="panel-kicker">Slot {{ $index + 1 }}</span>
+                            <strong>{{ $socio ? ($socio->pivot?->puesto ?: 'Puesto pendiente') : 'Disponible' }}</strong>
+                        </div>
+
+                        @if ($socio)
+                            <div class="relation-slot-body">
+                                <h4>{{ $socio->nombre }}</h4>
+                                <p>{{ $socio->rfc }}</p>
+                                <span class="badge badge-{{ $socio->estatus }}">{{ ucfirst($socio->estatus) }}</span>
+                            </div>
+
+                            <div class="table-actions">
+                                <a href="{{ route('socios.show', $socio) }}" class="action-button action-button-view">Ver P. Fisica</a>
+                                <form
+                                    action="{{ route('empresas.update', $empresa) }}"
+                                    method="POST"
+                                    class="inline-form"
+                                    data-confirm-form
+                                    data-confirm-title="Quitar P. Fisica"
+                                    data-confirm-message="Se quitara a {{ $socio->nombre }} de esta P. Moral."
+                                >
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="form_section" value="partners">
+                                    <input type="hidden" name="assignment_action" value="remove">
+                                    <input type="hidden" name="socio_id" value="{{ $socio->id }}">
+                                    <button type="submit" class="action-button action-button-delete">Quitar</button>
+                                </form>
+                            </div>
+                        @else
+                            <div class="relation-slot-empty">
+                                <span>Sin P. Fisica asignada</span>
+                                <p>Este espacio seguira visible hasta completar los 3 slots disponibles.</p>
+                            </div>
+                        @endif
+                    </article>
+                @endforeach
             </div>
 
             <div class="form-actions form-actions-bottom">
