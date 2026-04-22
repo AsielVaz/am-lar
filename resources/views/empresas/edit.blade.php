@@ -5,8 +5,14 @@
 
 @section('content')
     @php($hasSociosCapturados = $empresa->socios->isNotEmpty())
-    @php($sociosSlots = $empresa->socios->take(3)->pad(3, null))
     @php($sociosSlotsOcupados = $empresa->socios->count())
+    @php($representanteLegal = $empresa->socios->first(fn ($socio) => $socio->pivot?->puesto === 'Reprecentante legal'))
+    @php($sociosAccionarios = $empresa->socios->filter(fn ($socio) => $socio->pivot?->puesto === 'Socio accionario')->values())
+    @php($sociosSlots = collect([
+        ['label' => 'Representante legal', 'helper' => 'Slot unico', 'socio' => $representanteLegal],
+        ['label' => 'Socio 1', 'helper' => 'Primer socio accionario', 'socio' => $sociosAccionarios->get(0)],
+        ['label' => 'Socio 2', 'helper' => 'Segundo socio accionario', 'socio' => $sociosAccionarios->get(1)],
+    ]))
     <div class="edit-shell">
         <section class="panel panel-elevated form-panel">
             <div class="panel-header panel-header-tight">
@@ -102,7 +108,7 @@
                 </div>
 
                 <div class="form-actions form-actions-bottom">
-                    <span class="helper-text">Selecciona una P. Fisica y un puesto. Cada P. Moral puede tener como maximo 3 P. Fisicas asignadas.</span>
+                    <span class="helper-text">Cada P. Moral puede tener como maximo 1 Representante legal y 2 socios accionarios.</span>
                     <button type="submit" class="button button-primary">Asignar P. Fisica</button>
                 </div>
             </form>
@@ -112,11 +118,12 @@
             </div>
 
             <div class="relation-slot-grid">
-                @foreach ($sociosSlots as $index => $socio)
+                @foreach ($sociosSlots as $slot)
+                    @php($socio = $slot['socio'])
                     <article class="relation-slot-card {{ $socio ? '' : 'is-empty' }}">
                         <div class="relation-slot-header">
-                            <span class="panel-kicker">Slot {{ $index + 1 }}</span>
-                            <strong>{{ $socio ? ($socio->pivot?->puesto ?: 'Puesto pendiente') : 'Disponible' }}</strong>
+                            <span class="panel-kicker">{{ $slot['helper'] }}</span>
+                            <strong>{{ $slot['label'] }}</strong>
                         </div>
 
                         @if ($socio)
@@ -146,8 +153,8 @@
                             </div>
                         @else
                             <div class="relation-slot-empty">
-                                <span>Sin P. Fisica asignada</span>
-                                <p>Este espacio seguira visible hasta completar los 3 slots disponibles.</p>
+                                <span>{{ $slot['label'] }} disponible</span>
+                                <p>Este slot seguira visible hasta que se asigne una P. Fisica a esta posicion.</p>
                             </div>
                         @endif
                     </article>

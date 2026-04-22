@@ -4,7 +4,13 @@
 ])
 
 @section('content')
-    @php($sociosSlots = $empresa->socios->take(3)->pad(3, null))
+    @php($representanteLegal = $empresa->socios->first(fn ($socio) => $socio->pivot?->puesto === 'Reprecentante legal'))
+    @php($sociosAccionarios = $empresa->socios->filter(fn ($socio) => $socio->pivot?->puesto === 'Socio accionario')->values())
+    @php($sociosSlots = collect([
+        ['label' => 'Representante legal', 'helper' => 'Slot unico', 'socio' => $representanteLegal],
+        ['label' => 'Socio 1', 'helper' => 'Primer socio accionario', 'socio' => $sociosAccionarios->get(0)],
+        ['label' => 'Socio 2', 'helper' => 'Segundo socio accionario', 'socio' => $sociosAccionarios->get(1)],
+    ]))
     <div class="detail-stack">
         <section class="panel detail-panel">
             <div class="panel-header">
@@ -108,11 +114,12 @@
             </div>
 
             <div class="relation-slot-grid">
-                @foreach ($sociosSlots as $index => $socio)
+                @foreach ($sociosSlots as $slot)
+                    @php($socio = $slot['socio'])
                     <article class="relation-slot-card {{ $socio ? '' : 'is-empty' }}">
                         <div class="relation-slot-header">
-                            <span class="panel-kicker">Slot {{ $index + 1 }}</span>
-                            <strong>{{ $socio ? ($socio->pivot?->puesto ?: 'Puesto pendiente') : 'Disponible' }}</strong>
+                            <span class="panel-kicker">{{ $slot['helper'] }}</span>
+                            <strong>{{ $slot['label'] }}</strong>
                         </div>
 
                         @if ($socio)
@@ -149,8 +156,8 @@
                             </div>
                         @else
                             <div class="relation-slot-empty">
-                                <span>Sin P. Fisica asignada</span>
-                                <p>Este slot sigue visible para mostrar que la P. Moral todavia puede tener hasta 3 personas relacionadas.</p>
+                                <span>{{ $slot['label'] }} disponible</span>
+                                <p>Este slot sigue visible para mostrar la estructura fija de 1 Representante legal y 2 socios por P. Moral.</p>
                             </div>
                         @endif
                     </article>

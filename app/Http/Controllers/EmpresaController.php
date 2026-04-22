@@ -261,9 +261,31 @@ class EmpresaController extends Controller
 
         if ($data['assignment_action'] === 'assign') {
             $alreadyAssigned = $empresa->socios()->where('socios.id', $socio->id)->exists();
+            $representanteActual = $empresa->socios()
+                ->wherePivot('puesto', 'Reprecentante legal')
+                ->first();
+            $sociosActuales = $empresa->socios()
+                ->wherePivot('puesto', 'Socio accionario')
+                ->pluck('socios.id');
+
+            if ($data['puesto'] === 'Reprecentante legal') {
+                if ($representanteActual && $representanteActual->id !== $socio->id) {
+                    return 'Esta P. Moral ya tiene un Representante legal asignado. Quita o reemplaza ese slot antes de continuar.';
+                }
+            }
+
+            if ($data['puesto'] === 'Socio accionario') {
+                $sociosDistintosAsignados = $sociosActuales
+                    ->filter(fn ($socioId) => (int) $socioId !== $socio->id)
+                    ->count();
+
+                if ($sociosDistintosAsignados >= 2) {
+                    return 'Esta P. Moral ya tiene ocupados sus 2 slots de socios. Quita uno antes de asignar otro.';
+                }
+            }
 
             if (! $alreadyAssigned && $empresa->socios()->count() >= 3) {
-                return 'Esta P. Moral ya tiene ocupados sus 3 slots de P. Fisicas. Quita una antes de asignar otra.';
+                return 'Esta P. Moral ya tiene ocupados sus 3 slots: 1 Representante legal y 2 socios. Quita una relacion antes de asignar otra.';
             }
 
             $empresa->socios()->syncWithoutDetaching([
