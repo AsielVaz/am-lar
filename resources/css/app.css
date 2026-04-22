@@ -307,6 +307,19 @@
     flex-wrap: wrap;
 }
 
+.topbar-heading-group {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.topbar-leading-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .topbar-actions-stack {
     display: flex;
     flex-direction: column;
@@ -1755,6 +1768,7 @@
     .form-actions,
     .actions,
     .confirm-actions,
+    .topbar-heading-group,
     .topbar-actions,
     .app-footer,
     .panel-pagination {

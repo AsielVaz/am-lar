@@ -3,31 +3,31 @@
     'heading' => 'Consulta',
 ])
 
-@section('topbar_actions')
-    <div class="topbar-actions-stack">
-        <div class="topbar-filter-group" aria-label="Filtrar por tipo de persona">
-            <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => $estatus !== '' ? $estatus : null])) }}" class="topbar-filter-button is-active">
-                P. Morales
-            </a>
-            <a href="{{ route('socios.index') }}" class="topbar-filter-button">
-                P. Fisicas
-            </a>
-        </div>
+@section('topbar_leading_actions')
+    <div class="topbar-filter-group" aria-label="Filtrar por tipo de persona">
+        <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => $estatus !== '' ? $estatus : null])) }}" class="topbar-filter-button is-active">
+            P. Morales
+        </a>
+        <a href="{{ route('socios.index') }}" class="topbar-filter-button">
+            P. Fisicas
+        </a>
+    </div>
+@endsection
 
-        <div class="topbar-filter-group" aria-label="Filtrar por estatus">
-            <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null])) }}" class="topbar-filter-button {{ $estatus === '' ? 'is-active' : '' }}">
-                Todas
-            </a>
-            <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => 'activa'])) }}" class="topbar-filter-button {{ $estatus === 'activa' ? 'is-active' : '' }}">
-                Activas
-            </a>
-            <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => 'inactiva'])) }}" class="topbar-filter-button {{ $estatus === 'inactiva' ? 'is-active' : '' }}">
-                Inactivas
-            </a>
-            <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => 'inerte'])) }}" class="topbar-filter-button {{ $estatus === 'inerte' ? 'is-active' : '' }}">
-                Inertes
-            </a>
-        </div>
+@section('topbar_actions')
+    <div class="topbar-filter-group" aria-label="Filtrar por estatus">
+        <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null])) }}" class="topbar-filter-button {{ $estatus === '' ? 'is-active' : '' }}">
+            Todas
+        </a>
+        <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => 'activa'])) }}" class="topbar-filter-button {{ $estatus === 'activa' ? 'is-active' : '' }}">
+            Activas
+        </a>
+        <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => 'inactiva'])) }}" class="topbar-filter-button {{ $estatus === 'inactiva' ? 'is-active' : '' }}">
+            Inactivas
+        </a>
+        <a href="{{ route('dashboard', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => 'inerte'])) }}" class="topbar-filter-button {{ $estatus === 'inerte' ? 'is-active' : '' }}">
+            Inertes
+        </a>
     </div>
 @endsection
 

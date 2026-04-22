@@ -73,9 +73,17 @@
 
         <main class="main-content">
             <header class="topbar">
-                <div>
-                    <p class="eyebrow">Sistema de gestion</p>
-                    <h1>{{ $heading ?? 'Dashboard' }}</h1>
+                <div class="topbar-heading-group">
+                    <div>
+                        <p class="eyebrow">Sistema de gestion</p>
+                        <h1>{{ $heading ?? 'Dashboard' }}</h1>
+                    </div>
+
+                    @hasSection('topbar_leading_actions')
+                        <div class="topbar-leading-actions">
+                            @yield('topbar_leading_actions')
+                        </div>
+                    @endif
                 </div>
 
                 @hasSection('topbar_actions')

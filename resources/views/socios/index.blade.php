@@ -3,22 +3,22 @@
     'heading' => 'P. Fisicas',
 ])
 
-@section('topbar_actions')
-    <div class="topbar-actions-stack">
-        <div class="topbar-filter-group" aria-label="Filtrar por tipo de persona">
-            <a href="{{ route('dashboard') }}" class="topbar-filter-button">
-                P. Morales
-            </a>
-            <a href="{{ route('socios.index', $search !== '' ? ['search' => $search] : []) }}" class="topbar-filter-button is-active">
-                P. Fisicas
-            </a>
-        </div>
+@section('topbar_leading_actions')
+    <div class="topbar-filter-group" aria-label="Filtrar por tipo de persona">
+        <a href="{{ route('dashboard') }}" class="topbar-filter-button">
+            P. Morales
+        </a>
+        <a href="{{ route('socios.index', $search !== '' ? ['search' => $search] : []) }}" class="topbar-filter-button is-active">
+            P. Fisicas
+        </a>
+    </div>
+@endsection
 
-        <div class="topbar-filter-group" aria-label="Estatus de P. Fisicas">
-            <span class="topbar-filter-button is-active">Activas</span>
-            <span class="topbar-filter-button">Inactivas</span>
-            <span class="topbar-filter-button">Inertes</span>
-        </div>
+@section('topbar_actions')
+    <div class="topbar-filter-group" aria-label="Estatus de P. Fisicas">
+        <span class="topbar-filter-button is-active">Activas</span>
+        <span class="topbar-filter-button">Inactivas</span>
+        <span class="topbar-filter-button">Inertes</span>
     </div>
 @endsection
 
