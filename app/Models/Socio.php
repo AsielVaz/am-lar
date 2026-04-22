@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Socio extends Model
 {
     protected $fillable = [
+        'estatus',
         'puesto',
         'nombre',
         'direccion',
         'rfc',
         'contrasena',
+        'foto_usuario',
         'ine_pdf',
         'csf_pdf',
         'certificado_cer',

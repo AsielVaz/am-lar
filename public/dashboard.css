@@ -1611,6 +1611,74 @@ textarea {
         linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.38) 100%);
 }
 
+.image-dropzone {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    border-radius: 22px;
+    border: 1px dashed rgba(255, 255, 255, 0.56);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.22) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.68),
+        0 14px 30px rgba(59, 130, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    cursor: pointer;
+}
+
+.image-dropzone.is-dragover {
+    border-color: rgba(59, 130, 255, 0.46);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.72),
+        0 0 0 4px rgba(59, 130, 255, 0.12),
+        0 14px 30px rgba(59, 130, 255, 0.12);
+}
+
+.image-dropzone-input {
+    display: none;
+}
+
+.image-dropzone-preview {
+    display: grid;
+    place-items: center;
+    min-height: 220px;
+    border-radius: 20px;
+    overflow: hidden;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.36) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.54);
+}
+
+.image-dropzone-preview-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.image-dropzone-placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px;
+    text-align: center;
+    color: var(--text-soft);
+}
+
+.image-dropzone-placeholder strong {
+    color: var(--text);
+}
+
+.image-dropzone-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
 .detail-card,
 .detail-logo {
     padding: 20px;

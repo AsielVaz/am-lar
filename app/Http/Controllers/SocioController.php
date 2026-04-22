@@ -15,6 +15,12 @@ class SocioController extends Controller
     public function index(Request $request): View
     {
         $search = trim((string) $request->string('search'));
+        $estatus = mb_strtolower(trim((string) $request->string('estatus')));
+        $allowedStatuses = ['activa', 'inactiva', 'inerte'];
+
+        if (! in_array($estatus, $allowedStatuses, true)) {
+            $estatus = 'activa';
+        }
 
         $sociosQuery = Socio::query()
             ->withCount('empresas')
@@ -30,15 +36,20 @@ class SocioController extends Controller
                         });
                 });
             })
+            ->when($estatus !== '', fn ($query) => $query->where('estatus', $estatus))
             ->orderBy('nombre');
+
+        $sociosStats = Socio::query();
 
         return view('socios.index', [
             'socios' => $sociosQuery->paginate(10)->withQueryString(),
             'search' => $search,
+            'estatus' => $estatus,
             'estadisticas' => [
-                'total' => Socio::count(),
-                'representantes' => Socio::where('puesto', 'Reprecentante legal')->count(),
-                'accionarios' => Socio::where('puesto', 'Socio accionario')->count(),
+                'total' => $sociosStats->count(),
+                'activas' => Socio::where('estatus', 'activa')->count(),
+                'inactivas' => Socio::where('estatus', 'inactiva')->count(),
+                'inertes' => Socio::where('estatus', 'inerte')->count(),
                 'asignados' => Socio::has('empresas')->count(),
             ],
         ]);
@@ -59,9 +70,10 @@ class SocioController extends Controller
 
         foreach ($this->socioFileFields() as $field) {
             if ($request->hasFile($field)) {
+                $directory = $field === 'foto_usuario' ? 'empresas/socios/fotos' : 'empresas/socios';
                 $data[$field] = $this->storeUploadedFileWithLog(
                     $request->file($field),
-                    'empresas/socios',
+                    $directory,
                     $field,
                     ['context' => 'socio.store']
                 );
@@ -104,9 +116,10 @@ class SocioController extends Controller
                     Storage::disk('public')->delete($socio->{$field});
                 }
 
+                $directory = $field === 'foto_usuario' ? 'empresas/socios/fotos' : 'empresas/socios';
                 $data[$field] = $this->storeUploadedFileWithLog(
                     $request->file($field),
-                    'empresas/socios',
+                    $directory,
                     $field,
                     [
                         'context' => 'socio.update',
@@ -143,11 +156,13 @@ class SocioController extends Controller
     protected function validateSocioData(Request $request, ?int $socioId = null): array
     {
         return $request->validate([
+            'estatus' => ['required', 'in:activa,inactiva,inerte'],
             'puesto' => ['required', 'in:Reprecentante legal,Socio accionario'],
             'nombre' => ['required', 'string', 'max:255'],
             'direccion' => ['required', 'string', 'max:255'],
             'rfc' => ['required', 'string', 'max:13', 'unique:socios,rfc,' . $socioId],
             'contrasena' => ['nullable', 'string', 'max:255'],
+            'foto_usuario' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'ine_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
             'csf_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
             'certificado_cer' => ['nullable', 'file', 'extensions:cer', 'max:5120'],
@@ -159,7 +174,7 @@ class SocioController extends Controller
 
     protected function socioFileFields(): array
     {
-        return ['ine_pdf', 'csf_pdf', 'certificado_cer', 'llave_key'];
+        return ['foto_usuario', 'ine_pdf', 'csf_pdf', 'certificado_cer', 'llave_key'];
     }
 
     protected function storeUploadedFileWithLog($uploadedFile, string $directory, string $field, array $context = []): string

@@ -17,6 +17,17 @@
             </div>
 
             <div class="detail-grid">
+                <div class="detail-logo {{ $socio->foto_usuario ? '' : 'is-missing' }}">
+                    @if ($socio->foto_usuario)
+                        <img src="{{ asset('storage/' . $socio->foto_usuario) }}" alt="Foto de {{ $socio->nombre }}" class="logo-preview">
+                    @else
+                        <div class="logo-placeholder logo-placeholder-lg">{{ strtoupper(substr($socio->nombre, 0, 2)) }}</div>
+                    @endif
+                </div>
+                <div class="detail-card">
+                    <span class="detail-label">Estatus</span>
+                    <strong><span class="badge badge-{{ $socio->estatus }}">{{ ucfirst($socio->estatus) }}</span></strong>
+                </div>
                 <div class="detail-card">
                     <span class="detail-label">Puesto</span>
                     <strong>{{ $socio->puesto }}</strong>

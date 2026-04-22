@@ -16,9 +16,9 @@
 
 @section('topbar_actions')
     <div class="topbar-filter-group" aria-label="Estatus de P. Fisicas">
-        <span class="topbar-filter-button is-active">Activas</span>
-        <span class="topbar-filter-button">Inactivas</span>
-        <span class="topbar-filter-button">Inertes</span>
+        <a href="{{ route('socios.index', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => 'activa'])) }}" class="topbar-filter-button {{ ($estatus ?? 'activa') === 'activa' ? 'is-active' : '' }}">Activas</a>
+        <a href="{{ route('socios.index', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => 'inactiva'])) }}" class="topbar-filter-button {{ ($estatus ?? '') === 'inactiva' ? 'is-active' : '' }}">Inactivas</a>
+        <a href="{{ route('socios.index', array_filter(['search' => $search !== '' ? $search : null, 'estatus' => 'inerte'])) }}" class="topbar-filter-button {{ ($estatus ?? '') === 'inerte' ? 'is-active' : '' }}">Inertes</a>
     </div>
 @endsection
 
@@ -30,14 +30,18 @@
         </article>
         <article class="stat-card">
             <span class="stat-label">P. Fisicas activas</span>
-            <strong class="stat-value">{{ $estadisticas['representantes'] }}</strong>
+            <strong class="stat-value">{{ $estadisticas['activas'] }}</strong>
         </article>
         <article class="stat-card">
             <span class="stat-label">P. Fisicas inactivas</span>
-            <strong class="stat-value">{{ $estadisticas['accionarios'] }}</strong>
+            <strong class="stat-value">{{ $estadisticas['inactivas'] }}</strong>
         </article>
         <article class="stat-card">
             <span class="stat-label">P. Fisicas inertes</span>
+            <strong class="stat-value">{{ $estadisticas['inertes'] }}</strong>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Asignadas a P. Morales</span>
             <strong class="stat-value">{{ $estadisticas['asignados'] }}</strong>
         </article>
     </section>
@@ -60,8 +64,9 @@
                     placeholder="Buscar P. Fisicas por nombre, RFC, direccion, puesto o P. Moral"
                     class="panel-search-input"
                 >
+                <input type="hidden" name="estatus" value="{{ $estatus }}">
                 @if ($search !== '')
-                    <a href="{{ route('socios.index') }}" class="button button-secondary">Limpiar</a>
+                    <a href="{{ route('socios.index', ['estatus' => $estatus]) }}" class="button button-secondary">Limpiar</a>
                 @endif
                 <button type="submit" class="button button-primary">Buscar</button>
             </div>
@@ -71,6 +76,8 @@
             <table class="data-table">
                 <thead>
                     <tr>
+                        <th>Foto</th>
+                        <th>Estatus</th>
                         <th>Puesto</th>
                         <th>Nombre</th>
                         <th>RFC</th>
@@ -81,6 +88,14 @@
                 <tbody>
                     @forelse ($socios as $socio)
                         <tr>
+                            <td>
+                                @if ($socio->foto_usuario)
+                                    <img src="{{ asset('storage/' . $socio->foto_usuario) }}" alt="Foto de {{ $socio->nombre }}" class="logo-thumb">
+                                @else
+                                    <div class="logo-placeholder">{{ strtoupper(substr($socio->nombre, 0, 2)) }}</div>
+                                @endif
+                            </td>
+                            <td><span class="badge badge-{{ $socio->estatus }}">{{ ucfirst($socio->estatus) }}</span></td>
                             <td>{{ $socio->puesto }}</td>
                             <td>{{ $socio->nombre }}</td>
                             <td>{{ $socio->rfc }}</td>
@@ -108,7 +123,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="empty-state">Todavia no hay P. Fisicas registradas.</td>
+                            <td colspan="7" class="empty-state">Todavia no hay P. Fisicas registradas.</td>
                         </tr>
                     @endforelse
                 </tbody>

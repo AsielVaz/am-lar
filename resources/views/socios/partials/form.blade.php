@@ -6,13 +6,15 @@
 
     <div class="section-grid">
         <div class="field-group">
-            <label for="estatus_visual">Estatus</label>
-            <select id="estatus_visual" disabled>
-                <option selected>Activa</option>
-                <option>Inactiva</option>
-                <option>Inerte</option>
+            <label for="estatus">Estatus</label>
+            <select id="estatus" name="estatus" required>
+                <option value="activa" @selected(old('estatus', $socio->estatus ?? 'activa') === 'activa')>Activa</option>
+                <option value="inactiva" @selected(old('estatus', $socio->estatus) === 'inactiva')>Inactiva</option>
+                <option value="inerte" @selected(old('estatus', $socio->estatus) === 'inerte')>Inerte</option>
             </select>
-            <p class="helper-text">Etiqueta visual solicitada para P. Fisicas.</p>
+            @error('estatus')
+                <span class="field-error">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="field-group">
@@ -54,6 +56,30 @@
             <label for="contrasena">Contrasena</label>
             <input id="contrasena" name="contrasena" type="text" value="{{ old('contrasena', $socio->contrasena) }}">
             @error('contrasena')
+                <span class="field-error">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div class="field-group field-group-full">
+            <label for="foto_usuario">Foto de usuario</label>
+            <div class="image-dropzone {{ $socio->foto_usuario ? 'has-image' : '' }}" data-image-dropzone tabindex="0">
+                <input id="foto_usuario" name="foto_usuario" type="file" accept=".jpg,.jpeg,.png,.webp,image/*" class="image-dropzone-input" data-image-input>
+                <div class="image-dropzone-preview" data-image-preview>
+                    @if ($socio->foto_usuario)
+                        <img src="{{ asset('storage/' . $socio->foto_usuario) }}" alt="Foto actual de la P. Fisica" class="image-dropzone-preview-image" data-image-preview-image>
+                    @else
+                        <div class="image-dropzone-placeholder" data-image-placeholder>
+                            <strong>Arrastra una imagen aqui</strong>
+                            <span>Tambien puedes pegar desde el portapapeles o seleccionar manualmente.</span>
+                        </div>
+                    @endif
+                </div>
+                <div class="image-dropzone-actions">
+                    <button type="button" class="button button-secondary" data-image-browse>Seleccionar imagen</button>
+                    <span class="helper-text">Formatos: JPG, PNG o WEBP.</span>
+                </div>
+            </div>
+            @error('foto_usuario')
                 <span class="field-error">{{ $message }}</span>
             @enderror
         </div>

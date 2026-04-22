@@ -66,6 +66,93 @@ const bindDashboardModals = () => {
         });
     };
 
+    const bindImageDropzones = () => {
+        const dropzones = document.querySelectorAll('[data-image-dropzone]');
+
+        const syncFiles = (input, files) => {
+            if (!input || !files?.length) {
+                return;
+            }
+
+            const transfer = new DataTransfer();
+
+            Array.from(files).forEach((file) => transfer.items.add(file));
+            input.files = transfer.files;
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        };
+
+        const renderPreview = (dropzone, file) => {
+            const preview = dropzone.querySelector('[data-image-preview]');
+
+            if (!preview || !file) {
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                preview.innerHTML = `<img src="${reader.result}" alt="Vista previa" class="image-dropzone-preview-image" data-image-preview-image>`;
+                dropzone.classList.add('has-image');
+            };
+
+            reader.readAsDataURL(file);
+        };
+
+        dropzones.forEach((dropzone) => {
+            const input = dropzone.querySelector('[data-image-input]');
+            const browseButton = dropzone.querySelector('[data-image-browse]');
+
+            browseButton?.addEventListener('click', () => input?.click());
+
+            dropzone.addEventListener('click', (event) => {
+                if (event.target.closest('[data-image-browse]')) {
+                    return;
+                }
+
+                input?.click();
+            });
+
+            input?.addEventListener('change', () => {
+                const file = input.files?.[0];
+
+                if (file) {
+                    renderPreview(dropzone, file);
+                }
+            });
+
+            dropzone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropzone.classList.add('is-dragover');
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('is-dragover');
+            });
+
+            dropzone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropzone.classList.remove('is-dragover');
+
+                const file = Array.from(event.dataTransfer?.files ?? []).find((item) => item.type.startsWith('image/'));
+
+                if (file && input) {
+                    syncFiles(input, [file]);
+                }
+            });
+
+            dropzone.addEventListener('paste', (event) => {
+                const items = Array.from(event.clipboardData?.items ?? []);
+                const imageItem = items.find((item) => item.type.startsWith('image/'));
+                const file = imageItem?.getAsFile();
+
+                if (file && input) {
+                    event.preventDefault();
+                    syncFiles(input, [file]);
+                }
+            });
+        });
+    };
+
     const bindSocioTemplates = () => {
         const templateSelects = document.querySelectorAll('[data-socio-template-select]');
 
@@ -249,6 +336,7 @@ const bindDashboardModals = () => {
 
     initScrollReveal();
     bindSocioTemplates();
+    bindImageDropzones();
 };
 
 if (document.readyState === 'loading') {
