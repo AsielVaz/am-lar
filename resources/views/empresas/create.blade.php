@@ -1,6 +1,6 @@
 @extends('layouts.app', [
-    'title' => 'Nueva empresa',
-    'heading' => 'Registrar empresa',
+    'title' => 'Nueva P. Moral',
+    'heading' => 'Registrar P. Moral',
 ])
 
 @section('content')
@@ -8,7 +8,7 @@
         <div class="panel-header">
             <div>
                 <p class="panel-kicker">Alta</p>
-                <h2>Nueva empresa</h2>
+                <h2>Nueva P. Moral</h2>
             </div>
         </div>
 

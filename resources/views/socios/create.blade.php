@@ -1,6 +1,6 @@
 @extends('layouts.app', [
-    'title' => 'Nuevo socio',
-    'heading' => 'Nuevo socio',
+    'title' => 'Nueva P. Fisica',
+    'heading' => 'Nueva P. Fisica',
 ])
 
 @section('content')
@@ -8,7 +8,7 @@
         <div class="panel-header panel-header-tight">
             <div>
                 <p class="panel-kicker">Catalogo</p>
-                <h2>Registrar socio</h2>
+                <h2>Registrar P. Fisica</h2>
             </div>
         </div>
 

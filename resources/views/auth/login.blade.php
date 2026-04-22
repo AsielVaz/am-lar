@@ -35,15 +35,15 @@
 
                 <div class="auth-aside-copy">
                     <p class="panel-kicker">Control centralizado</p>
-                    <h1>Gestiona empresas, usuarios y archivos desde un solo panel.</h1>
+                    <h1>Gestiona P. Morales, P. Fisicas, usuarios y archivos desde un solo panel.</h1>
                     <p class="helper-text">
-                        Accede con tu cuenta para administrar operaciones, documentos fiscales, socios y usuarios del sistema.
+                        Accede con tu cuenta para administrar operaciones, documentos fiscales, P. Fisicas y usuarios del sistema.
                     </p>
                 </div>
 
                 <div class="auth-feature-list">
                     <div class="auth-feature-item">
-                        <strong>Empresas</strong>
+                        <strong>P. Morales</strong>
                         <span>Alta, seguimiento y documentos operativos.</span>
                     </div>
                     <div class="auth-feature-item">
@@ -52,7 +52,7 @@
                     </div>
                     <div class="auth-feature-item">
                         <strong>Resguardo</strong>
-                        <span>Consulta rapida de SAT, FIEL y socios desde un mismo lugar.</span>
+                        <span>Consulta rapida de SAT, FIEL y P. Fisicas desde un mismo lugar.</span>
                     </div>
                 </div>
 

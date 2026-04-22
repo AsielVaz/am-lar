@@ -1,6 +1,6 @@
 @extends('layouts.app', [
-    'title' => 'Detalle de empresa',
-    'heading' => 'Detalle de empresa',
+    'title' => 'Detalle de P. Moral',
+    'heading' => 'Detalle de P. Moral',
 ])
 
 @section('content')
@@ -97,8 +97,8 @@
         <section class="panel detail-panel">
             <div class="panel-header">
                 <div>
-                    <p class="panel-kicker">Socios</p>
-                    <h2>Socios y representantes</h2>
+                    <p class="panel-kicker">P. Fisicas</p>
+                    <h2>P. Fisicas y representantes</h2>
                 </div>
             </div>
 
@@ -140,7 +140,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9" class="empty-state">No hay socios registrados.</td>
+                                <td colspan="9" class="empty-state">No hay P. Fisicas registradas.</td>
                             </tr>
                         @endforelse
                     </tbody>

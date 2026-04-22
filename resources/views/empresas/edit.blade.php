@@ -1,6 +1,6 @@
 @extends('layouts.app', [
-    'title' => 'Editar empresa',
-    'heading' => 'Editar empresa',
+    'title' => 'Editar P. Moral',
+    'heading' => 'Editar P. Moral',
 ])
 
 @section('content')
@@ -12,7 +12,7 @@
                     <p class="panel-kicker">Actualizacion</p>
                     <h2>{{ $empresa->nombre }}</h2>
                 </div>
-                <a href="{{ route('empresas.show', $empresa) }}" class="button button-secondary">Ver empresa</a>
+                <a href="{{ route('empresas.show', $empresa) }}" class="button button-secondary">Ver P. Moral</a>
             </div>
 
             <form action="{{ route('empresas.update', $empresa) }}" method="POST" enctype="multipart/form-data" class="form-grid">
@@ -21,7 +21,7 @@
                 <input type="hidden" name="form_section" value="general">
                 @unless($canEditCompanyData)
                     <div class="alert alert-success field-group-full">
-                        Tu rol puede cargar y actualizar documentos, pero no modificar los datos generales ni el estatus de la empresa.
+                        Tu rol puede cargar y actualizar documentos, pero no modificar los datos generales ni el estatus de la P. Moral.
                     </div>
                 @endunless
                 @include('empresas.partials.form', ['hidePrimaryActions' => true])
@@ -37,7 +37,7 @@
 
                 <div class="form-actions form-actions-bottom field-group-full">
                     <a href="{{ route('empresas.index') }}" class="button button-secondary">Volver al listado</a>
-                    <button type="submit" class="button button-primary">{{ $canEditCompanyData ? 'Guardar empresa y documentos' : 'Guardar documentos' }}</button>
+                    <button type="submit" class="button button-primary">{{ $canEditCompanyData ? 'Guardar P. Moral y documentos' : 'Guardar documentos' }}</button>
                 </div>
             </form>
         </section>
@@ -45,15 +45,15 @@
         <section class="panel panel-elevated form-panel {{ $hasSociosCapturados ? '' : 'is-missing-panel' }}" id="socios">
             <div class="panel-header panel-header-tight">
                 <div>
-                    <p class="panel-kicker">Socios</p>
-                    <h2>Socios y representantes</h2>
+                    <p class="panel-kicker">P. Fisicas</p>
+                    <h2>P. Fisicas y representantes</h2>
                 </div>
-                <a href="{{ route('socios.create') }}" class="button button-secondary">Nuevo socio</a>
+                <a href="{{ route('socios.create') }}" class="button button-secondary">Nueva P. Fisica</a>
             </div>
 
             @unless($hasSociosCapturados)
                 <div class="missing-panel-notice">
-                    Esta empresa aun no tiene socios o representantes asignados.
+                    Esta P. Moral aun no tiene P. Fisicas o representantes asignados.
                 </div>
             @endunless
 
@@ -66,14 +66,14 @@
                 <div class="form-section">
                     <div class="form-section-heading">
                         <p class="panel-kicker">Asignacion</p>
-                        <h3 class="section-title">Asignar socio existente</h3>
+                        <h3 class="section-title">Asignar P. Fisica existente</h3>
                     </div>
 
                     <div class="section-grid">
                         <div class="field-group field-group-full">
-                            <label for="socio_id">Socio disponible</label>
+                            <label for="socio_id">P. Fisica disponible</label>
                             <select id="socio_id" name="socio_id" required>
-                                <option value="">Selecciona un socio</option>
+                                <option value="">Selecciona una P. Fisica</option>
                                 @foreach ($sociosDisponibles as $socioDisponible)
                                     <option value="{{ $socioDisponible->id }}">
                                         {{ $socioDisponible->nombre }} - {{ $socioDisponible->puesto }} - {{ $socioDisponible->rfc }}
@@ -88,8 +88,8 @@
                 </div>
 
                 <div class="form-actions form-actions-bottom">
-                    <span class="helper-text">Selecciona un socio del catalogo y presiona en asignar socio.</span>
-                    <button type="submit" class="button button-primary">Asignar socio</button>
+                    <span class="helper-text">Selecciona una P. Fisica del catalogo y presiona en asignar.</span>
+                    <button type="submit" class="button button-primary">Asignar P. Fisica</button>
                 </div>
             </form>
 
@@ -111,14 +111,14 @@
                                 <td>{{ $socio->rfc }}</td>
                                 <td>
                                     <div class="table-actions">
-                                        <a href="{{ route('socios.show', $socio) }}" class="action-button action-button-view">Ver socio</a>
+                                        <a href="{{ route('socios.show', $socio) }}" class="action-button action-button-view">Ver P. Fisica</a>
                                         <form
                                             action="{{ route('empresas.update', $empresa) }}"
                                             method="POST"
                                             class="inline-form"
                                             data-confirm-form
-                                            data-confirm-title="Quitar socio"
-                                            data-confirm-message="Se quitara a {{ $socio->nombre }} de esta empresa."
+                                            data-confirm-title="Quitar P. Fisica"
+                                            data-confirm-message="Se quitara a {{ $socio->nombre }} de esta P. Moral."
                                         >
                                             @csrf
                                             @method('PUT')
@@ -132,7 +132,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="empty-state">Esta empresa aun no tiene socios asignados.</td>
+                                <td colspan="4" class="empty-state">Esta P. Moral aun no tiene P. Fisicas asignadas.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -140,8 +140,8 @@
             </div>
 
             <div class="form-actions form-actions-bottom">
-                <span class="helper-text">La gestion completa de datos y archivos de socios ahora vive en el modulo de socios.</span>
-                <a href="{{ route('socios.index') }}" class="button button-secondary">Ir a socios</a>
+                <span class="helper-text">La gestion completa de datos y archivos de P. Fisicas ahora vive en el modulo de P. Fisicas.</span>
+                <a href="{{ route('socios.index') }}" class="button button-secondary">Ir a P. Fisicas</a>
             </div>
         </section>
     </div>

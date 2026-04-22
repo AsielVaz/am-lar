@@ -131,6 +131,6 @@
 @unless(isset($hidePrimaryActions) && $hidePrimaryActions)
     <div class="form-actions field-group-full">
         <a href="{{ route('empresas.index') }}" class="button button-secondary">Cancelar</a>
-        <button type="submit" class="button button-primary">Guardar empresa</button>
+        <button type="submit" class="button button-primary">Guardar P. Moral</button>
     </div>
 @endunless

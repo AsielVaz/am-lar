@@ -1,6 +1,6 @@
 @extends('layouts.app', [
-    'title' => 'Empresas',
-    'heading' => 'Empresas',
+    'title' => 'P. Morales',
+    'heading' => 'P. Morales',
 ])
 
 @section('content')
@@ -31,10 +31,10 @@
         <div class="panel-header">
             <div>
                 <p class="panel-kicker">CRUD completo</p>
-                <h2>Listado de empresas</h2>
+                <h2>Listado de P. Morales</h2>
             </div>
             @if (auth()->user()->isAdministrador())
-                <a href="{{ route('empresas.create') }}" class="button button-primary">Nueva empresa</a>
+                <a href="{{ route('empresas.create') }}" class="button button-primary">Nueva P. Moral</a>
             @endif
         </div>
 
@@ -44,7 +44,7 @@
                     type="search"
                     name="search"
                     value="{{ $search }}"
-                    placeholder="Buscar por nombre, RFC, direccion o correo"
+                    placeholder="Buscar P. Morales por nombre, RFC, direccion o correo"
                     class="panel-search-input"
                 >
                 @if ($search !== '')
@@ -88,7 +88,7 @@
                                 <div class="table-actions">
                                     <a href="{{ route('empresas.edit', $empresa) }}" class="action-button action-button-edit">Editar</a>
                                     @if (auth()->user()->isAdministrador())
-                                        <form action="{{ route('empresas.destroy', $empresa) }}" method="POST" class="inline-form" data-confirm-form data-confirm-title="Eliminar empresa" data-confirm-message="Se eliminara {{ $empresa->nombre }} y toda su informacion relacionada. Esta accion no se puede deshacer.">
+                                        <form action="{{ route('empresas.destroy', $empresa) }}" method="POST" class="inline-form" data-confirm-form data-confirm-title="Eliminar P. Moral" data-confirm-message="Se eliminara {{ $empresa->nombre }} y toda su informacion relacionada. Esta accion no se puede deshacer.">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="action-button action-button-delete">Eliminar</button>
@@ -100,7 +100,7 @@
                     @empty
                         <tr>
                             <td colspan="6" class="empty-state">
-                                {{ $search !== '' ? 'No se encontraron empresas con ese criterio de busqueda.' : 'No hay empresas registradas todavia.' }}
+                                {{ $search !== '' ? 'No se encontraron P. Morales con ese criterio de busqueda.' : 'No hay P. Morales registradas todavia.' }}
                             </td>
                         </tr>
                     @endforelse

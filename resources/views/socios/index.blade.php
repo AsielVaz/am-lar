@@ -1,24 +1,43 @@
 @extends('layouts.app', [
-    'title' => 'Socios',
-    'heading' => 'Socios',
+    'title' => 'P. Fisicas',
+    'heading' => 'P. Fisicas',
 ])
+
+@section('topbar_actions')
+    <div class="topbar-actions-stack">
+        <div class="topbar-filter-group" aria-label="Filtrar por tipo de persona">
+            <a href="{{ route('dashboard') }}" class="topbar-filter-button">
+                P. Morales
+            </a>
+            <a href="{{ route('socios.index', $search !== '' ? ['search' => $search] : []) }}" class="topbar-filter-button is-active">
+                P. Fisicas
+            </a>
+        </div>
+
+        <div class="topbar-filter-group" aria-label="Estatus de P. Fisicas">
+            <span class="topbar-filter-button is-active">Activas</span>
+            <span class="topbar-filter-button">Inactivas</span>
+            <span class="topbar-filter-button">Inertes</span>
+        </div>
+    </div>
+@endsection
 
 @section('content')
     <section class="stats-grid">
         <article class="stat-card">
-            <span class="stat-label">Total</span>
+            <span class="stat-label">Total P. Fisicas</span>
             <strong class="stat-value">{{ $estadisticas['total'] }}</strong>
         </article>
         <article class="stat-card">
-            <span class="stat-label">Representantes legales</span>
+            <span class="stat-label">P. Fisicas activas</span>
             <strong class="stat-value">{{ $estadisticas['representantes'] }}</strong>
         </article>
         <article class="stat-card">
-            <span class="stat-label">Socios accionarios</span>
+            <span class="stat-label">P. Fisicas inactivas</span>
             <strong class="stat-value">{{ $estadisticas['accionarios'] }}</strong>
         </article>
         <article class="stat-card">
-            <span class="stat-label">Asignados a empresas</span>
+            <span class="stat-label">P. Fisicas inertes</span>
             <strong class="stat-value">{{ $estadisticas['asignados'] }}</strong>
         </article>
     </section>
@@ -27,9 +46,9 @@
         <div class="panel-header">
             <div>
                 <p class="panel-kicker">Catalogo</p>
-                <h2>Listado de socios</h2>
+                <h2>Listado de P. Fisicas</h2>
             </div>
-            <a href="{{ route('socios.create') }}" class="button button-primary">Nuevo socio</a>
+            <a href="{{ route('socios.create') }}" class="button button-primary">Nueva P. Fisica</a>
         </div>
 
         <form action="{{ route('socios.index') }}" method="GET" class="panel-search-form">
@@ -38,7 +57,7 @@
                     type="search"
                     name="search"
                     value="{{ $search }}"
-                    placeholder="Buscar por nombre, RFC, direccion, puesto o empresa"
+                    placeholder="Buscar P. Fisicas por nombre, RFC, direccion, puesto o P. Moral"
                     class="panel-search-input"
                 >
                 @if ($search !== '')
@@ -55,7 +74,7 @@
                         <th>Puesto</th>
                         <th>Nombre</th>
                         <th>RFC</th>
-                        <th>Empresas</th>
+                        <th>P. Morales</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -76,8 +95,8 @@
                                             method="POST"
                                             class="inline-form"
                                             data-confirm-form
-                                            data-confirm-title="Eliminar socio"
-                                            data-confirm-message="Se eliminara {{ $socio->nombre }} y se quitaran sus relaciones con empresas. Esta accion no se puede deshacer."
+                                            data-confirm-title="Eliminar P. Fisica"
+                                            data-confirm-message="Se eliminara {{ $socio->nombre }} y se quitaran sus relaciones con P. Morales. Esta accion no se puede deshacer."
                                         >
                                             @csrf
                                             @method('DELETE')
@@ -89,7 +108,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="empty-state">Todavia no hay socios registrados.</td>
+                            <td colspan="5" class="empty-state">Todavia no hay P. Fisicas registradas.</td>
                         </tr>
                     @endforelse
                 </tbody>

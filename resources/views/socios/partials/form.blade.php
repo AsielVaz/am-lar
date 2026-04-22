@@ -1,10 +1,20 @@
 <div class="form-section">
     <div class="form-section-heading">
         <p class="panel-kicker">Datos principales</p>
-        <h3 class="section-title">Informacion del socio</h3>
+        <h3 class="section-title">Informacion de la P. Fisica</h3>
     </div>
 
     <div class="section-grid">
+        <div class="field-group">
+            <label for="estatus_visual">Estatus</label>
+            <select id="estatus_visual" disabled>
+                <option selected>Activa</option>
+                <option>Inactiva</option>
+                <option>Inerte</option>
+            </select>
+            <p class="helper-text">Etiqueta visual solicitada para P. Fisicas.</p>
+        </div>
+
         <div class="field-group">
             <label for="puesto">Puesto</label>
             <select id="puesto" name="puesto" required>
@@ -53,7 +63,7 @@
 <div class="form-section">
     <div class="form-section-heading">
         <p class="panel-kicker">Documentacion</p>
-        <h3 class="section-title">Archivos del socio</h3>
+        <h3 class="section-title">Archivos de la P. Fisica</h3>
     </div>
 
     <div class="section-grid">
@@ -98,18 +108,18 @@
 <div class="form-section">
     <div class="form-section-heading">
         <p class="panel-kicker">Asignacion</p>
-        <h3 class="section-title">Empresas relacionadas</h3>
+        <h3 class="section-title">P. Morales relacionadas</h3>
     </div>
 
     <div class="section-grid">
         <div class="field-group field-group-full">
-            <label for="empresa_ids">Empresas</label>
+            <label for="empresa_ids">P. Morales</label>
             <select id="empresa_ids" name="empresa_ids[]" multiple size="8">
                 @foreach ($empresasDisponibles as $empresa)
                     <option value="{{ $empresa->id }}" @selected(in_array($empresa->id, $selectedEmpresas))>{{ $empresa->nombre }}</option>
                 @endforeach
             </select>
-            <p class="helper-text">Puedes relacionar el socio con una o varias empresas.</p>
+            <p class="helper-text">Puedes relacionar la P. Fisica con una o varias P. Morales.</p>
             @error('empresa_ids')
                 <span class="field-error">{{ $message }}</span>
             @enderror
@@ -122,5 +132,5 @@
 
 <div class="form-actions form-actions-bottom">
     <a href="{{ route('socios.index') }}" class="button button-secondary">Cancelar</a>
-    <button type="submit" class="button button-primary">{{ $isEdit ? 'Guardar cambios' : 'Crear socio' }}</button>
+    <button type="submit" class="button button-primary">{{ $isEdit ? 'Guardar cambios' : 'Crear P. Fisica' }}</button>
 </div>

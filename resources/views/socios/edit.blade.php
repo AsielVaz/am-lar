@@ -1,6 +1,6 @@
 @extends('layouts.app', [
-    'title' => 'Editar socio',
-    'heading' => 'Editar socio',
+    'title' => 'Editar P. Fisica',
+    'heading' => 'Editar P. Fisica',
 ])
 
 @section('content')
@@ -8,9 +8,9 @@
         <div class="panel-header panel-header-tight">
             <div>
                 <p class="panel-kicker">Catalogo</p>
-                <h2>Actualizar socio</h2>
+                <h2>Actualizar P. Fisica</h2>
             </div>
-            <a href="{{ route('socios.show', $socio) }}" class="button button-secondary">Ver socio</a>
+            <a href="{{ route('socios.show', $socio) }}" class="button button-secondary">Ver P. Fisica</a>
         </div>
 
         <form action="{{ route('socios.update', $socio) }}" method="POST" enctype="multipart/form-data" class="auth-admin-form">

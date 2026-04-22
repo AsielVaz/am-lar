@@ -1,6 +1,6 @@
 @extends('layouts.app', [
-    'title' => 'Detalle de socio',
-    'heading' => 'Detalle de socio',
+    'title' => 'Detalle de P. Fisica',
+    'heading' => 'Detalle de P. Fisica',
 ])
 
 @section('content')
@@ -34,7 +34,7 @@
                     <strong class="{{ blank($socio->contrasena) ? 'missing-glass-text' : '' }}">{{ $socio->contrasena ?: 'No capturada' }}</strong>
                 </div>
                 <div class="detail-card">
-                    <span class="detail-label">Empresas asignadas</span>
+                    <span class="detail-label">P. Morales asignadas</span>
                     <strong>{{ $socio->empresas->count() }}</strong>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             <div class="panel-header">
                 <div>
                     <p class="panel-kicker">Documentacion</p>
-                    <h2>Archivos del socio</h2>
+                    <h2>Archivos de la P. Fisica</h2>
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
             <div class="panel-header">
                 <div>
                     <p class="panel-kicker">Relaciones</p>
-                    <h2>Empresas asignadas</h2>
+                    <h2>P. Morales asignadas</h2>
                 </div>
             </div>
 
@@ -80,7 +80,7 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Empresa</th>
+                            <th>P. Moral</th>
                             <th>RFC</th>
                             <th>Estatus</th>
                             <th>Accion</th>
@@ -92,11 +92,11 @@
                                 <td>{{ $empresa->nombre }}</td>
                                 <td>{{ $empresa->rfc }}</td>
                                 <td><span class="badge badge-{{ $empresa->estatus }}">{{ ucfirst($empresa->estatus) }}</span></td>
-                                <td><a href="{{ route('empresas.show', $empresa) }}" class="action-button action-button-view">Ver empresa</a></td>
+                                <td><a href="{{ route('empresas.show', $empresa) }}" class="action-button action-button-view">Ver P. Moral</a></td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="empty-state">Este socio aun no esta asignado a ninguna empresa.</td>
+                                <td colspan="4" class="empty-state">Esta P. Fisica aun no esta asignada a ninguna P. Moral.</td>
                             </tr>
                         @endforelse
                     </tbody>

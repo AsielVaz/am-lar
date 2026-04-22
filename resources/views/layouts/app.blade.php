@@ -39,10 +39,10 @@
                     </a>
                     @if (auth()->user()->isAdministrador() || auth()->user()->isCapturista())
                         <a href="{{ route('empresas.index') }}" class="nav-link {{ request()->routeIs('empresas.index', 'empresas.show', 'empresas.edit') ? 'is-active' : '' }}">
-                            Empresas
+                            P. Morales
                         </a>
                         <a href="{{ route('socios.index') }}" class="nav-link {{ request()->routeIs('socios.*') ? 'is-active' : '' }}">
-                            Socios
+                            P. Fisicas
                         </a>
                     @endif
                     @if (auth()->user()->isAdministrador())
@@ -50,7 +50,7 @@
                             Usuarios
                         </a>
                         <a href="{{ route('empresas.create') }}" class="nav-link {{ request()->routeIs('empresas.create') ? 'is-active' : '' }}">
-                            Nueva empresa
+                            Nueva P. Moral
                         </a>
                     @endif
                 </nav>
