@@ -1,58 +1,180 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AM+
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema de gestion empresarial desarrollado en Laravel para la administracion de empresas, documentacion fiscal y corporativa, socios independientes y control de usuarios por rol.
 
-## About Laravel
+## Descripcion
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+AM+ esta pensado para centralizar la consulta y administracion de informacion operativa y documental de multiples empresas en una sola interfaz.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+El sistema permite:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- administrar empresas con datos generales, estatus, prioridad, logo y datos operativos
+- capturar y consultar documentacion corporativa y fiscal por empresa
+- administrar socios como personas independientes con su propio CRUD
+- relacionar uno o varios socios con una o varias empresas mediante tabla pivote
+- consultar el directorio empresarial desde un dashboard visual tipo glass UI
+- controlar acceso por roles: `administrador`, `capturista` y `usuario`
 
-## Learning Laravel
+## Modulos principales
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Consulta
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- vista principal del sistema
+- muestra todas las empresas agrupadas alfabeticamente
+- permite filtrar por `activa`, `inactiva` e `inerte`
+- permite buscar empresas por nombre, RFC, direccion o correo
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Empresas
 
-## Agentic Development
+CRUD completo para empresas con:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- nombre
+- RFC
+- direccion
+- codigo postal
+- estatus
+- prioridad
+- logo
+- telefono
+- correo
+- sitio web
+- fin del dominio web
+- contrasena IOFacturo
+
+Tambien incluye:
+
+- carga de documentos legales y fiscales
+- vigencia de `32D`
+- vigencia de `comprobante de domicilio`
+- asignacion de socios existentes a la empresa
+
+### Socios
+
+CRUD completo para socios como entidad independiente con:
+
+- puesto
+- nombre
+- direccion
+- RFC
+- contrasena
+- INE en PDF
+- CSF en PDF
+- certificado `.cer`
+- llave `.key`
+
+Cada socio puede relacionarse con una o varias empresas.
+
+### Usuarios
+
+CRUD completo de usuarios sobre la tabla estandar de Laravel.
+
+Roles disponibles:
+
+- `Administrador`: acceso total
+- `Capturista`: puede gestionar documentos y socios, con restricciones en datos generales de empresa
+- `Usuario`: acceso de consulta
+
+## Stack tecnico
+
+- PHP `8.3+`
+- Laravel `13`
+- Blade
+- CSS personalizado con interfaz glass
+- MySQL o motor compatible con Laravel
+
+## Estructura funcional relevante
+
+- `app/Http/Controllers/EmpresaController.php`
+- `app/Http/Controllers/SocioController.php`
+- `app/Http/Controllers/UserController.php`
+- `app/Models/Empresa.php`
+- `app/Models/Socio.php`
+- `app/Models/User.php`
+- `resources/views/dashboard`
+- `resources/views/empresas`
+- `resources/views/socios`
+- `resources/views/users`
+
+## Instalacion local
+
+1. Instalar dependencias de PHP:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+2. Crear archivo de entorno:
 
-## Contributing
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. Generar llave de aplicacion:
 
-## Code of Conduct
+```bash
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Configurar base de datos en `.env`
 
-## Security Vulnerabilities
+5. Ejecutar migraciones:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan migrate
+```
 
-## License
+6. Si quieres sembrar el usuario base configurado en el proyecto:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan db:seed --force
+```
+
+7. Levantar el proyecto:
+
+```bash
+php artisan serve
+```
+
+## Despliegue
+
+Puntos importantes para despliegue:
+
+- configurar correctamente `APP_URL`
+- asegurar permisos de escritura en `storage/` y `bootstrap/cache/`
+- si se usan archivos subidos por disco `public`, revisar la publicacion de `storage`
+- limpiar cache despues de cada despliegue:
+
+```bash
+php artisan optimize:clear
+```
+
+## Archivos y documentos
+
+El sistema almacena documentos empresariales y de socios en el disco `public` de Laravel.
+
+Tipos usados actualmente:
+
+- logos: `.jpg`, `.jpeg`, `.png`, `.webp`
+- documentos: `.pdf`
+- certificados: `.cer`
+- llaves: `.key`
+
+## Estado del proyecto
+
+AM+ actualmente cuenta con:
+
+- autenticacion con login y recordarme
+- control de acceso por rol
+- CRUD de empresas
+- CRUD de socios
+- CRUD de usuarios
+- relacion many-to-many entre empresas y socios
+- dashboard de consulta visual
+- estilos personalizados tipo liquid glass
+
+## Creditos
+
+Proyecto desarrollado y firmado por:
+
+- HoppingJet
+- Edworld
