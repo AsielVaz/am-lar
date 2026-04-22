@@ -18,17 +18,6 @@
         </div>
 
         <div class="field-group">
-            <label for="puesto">Puesto</label>
-            <select id="puesto" name="puesto" required>
-                <option value="Reprecentante legal" @selected(old('puesto', $socio->puesto) === 'Reprecentante legal')>Reprecentante legal</option>
-                <option value="Socio accionario" @selected(old('puesto', $socio->puesto) === 'Socio accionario')>Socio accionario</option>
-            </select>
-            @error('puesto')
-                <span class="field-error">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div class="field-group">
             <label for="nombre">Nombre</label>
             <input id="nombre" name="nombre" type="text" value="{{ old('nombre', $socio->nombre) }}" required>
             @error('nombre')
@@ -125,31 +114,6 @@
             <input id="llave_key" name="llave_key" type="file" accept=".key">
             @include('empresas.partials.document-link', ['archivo' => $socio->llave_key])
             @error('llave_key')
-                <span class="field-error">{{ $message }}</span>
-            @enderror
-        </div>
-    </div>
-</div>
-
-<div class="form-section">
-    <div class="form-section-heading">
-        <p class="panel-kicker">Asignacion</p>
-        <h3 class="section-title">P. Morales relacionadas</h3>
-    </div>
-
-    <div class="section-grid">
-        <div class="field-group field-group-full">
-            <label for="empresa_ids">P. Morales</label>
-            <select id="empresa_ids" name="empresa_ids[]" multiple size="8">
-                @foreach ($empresasDisponibles as $empresa)
-                    <option value="{{ $empresa->id }}" @selected(in_array($empresa->id, $selectedEmpresas))>{{ $empresa->nombre }}</option>
-                @endforeach
-            </select>
-            <p class="helper-text">Puedes relacionar la P. Fisica con una o varias P. Morales.</p>
-            @error('empresa_ids')
-                <span class="field-error">{{ $message }}</span>
-            @enderror
-            @error('empresa_ids.*')
                 <span class="field-error">{{ $message }}</span>
             @enderror
         </div>

@@ -70,17 +70,29 @@
                     </div>
 
                     <div class="section-grid">
-                        <div class="field-group field-group-full">
+                        <div class="field-group">
                             <label for="socio_id">P. Fisica disponible</label>
                             <select id="socio_id" name="socio_id" required>
                                 <option value="">Selecciona una P. Fisica</option>
                                 @foreach ($sociosDisponibles as $socioDisponible)
                                     <option value="{{ $socioDisponible->id }}">
-                                        {{ $socioDisponible->nombre }} - {{ $socioDisponible->puesto }} - {{ $socioDisponible->rfc }}
+                                        {{ $socioDisponible->nombre }} - {{ $socioDisponible->rfc }}
                                     </option>
                                 @endforeach
                             </select>
                             @error('socio_id')
+                                <small class="field-error">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="field-group">
+                            <label for="puesto">Puesto en esta P. Moral</label>
+                            <select id="puesto" name="puesto" required>
+                                <option value="">Selecciona un puesto</option>
+                                <option value="Reprecentante legal" @selected(old('puesto') === 'Reprecentante legal')>Reprecentante legal</option>
+                                <option value="Socio accionario" @selected(old('puesto') === 'Socio accionario')>Socio accionario</option>
+                            </select>
+                            @error('puesto')
                                 <small class="field-error">{{ $message }}</small>
                             @enderror
                         </div>
@@ -106,7 +118,7 @@
                     <tbody>
                         @forelse ($empresa->socios as $socio)
                             <tr>
-                                <td>{{ $socio->puesto }}</td>
+                                <td>{{ $socio->pivot?->puesto ?: 'No capturado' }}</td>
                                 <td>{{ $socio->nombre }}</td>
                                 <td>{{ $socio->rfc }}</td>
                                 <td>

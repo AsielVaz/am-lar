@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Empresa;
 use App\Models\Socio;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,7 +29,6 @@ class SocioController extends Controller
                         ->where('nombre', 'like', "%{$search}%")
                         ->orWhere('rfc', 'like', "%{$search}%")
                         ->orWhere('direccion', 'like', "%{$search}%")
-                        ->orWhere('puesto', 'like', "%{$search}%")
                         ->orWhereHas('empresas', function ($empresaQuery) use ($search) {
                             $empresaQuery->where('nombre', 'like', "%{$search}%");
                         });
@@ -59,8 +57,6 @@ class SocioController extends Controller
     {
         return view('socios.create', [
             'socio' => new Socio(),
-            'empresasDisponibles' => Empresa::query()->orderBy('nombre')->get(['id', 'nombre']),
-            'selectedEmpresas' => old('empresa_ids', []),
         ]);
     }
 
@@ -81,7 +77,6 @@ class SocioController extends Controller
         }
 
         $socio = Socio::create($data);
-        $socio->empresas()->sync($request->input('empresa_ids', []));
 
         return redirect()
             ->route('socios.edit', $socio)
@@ -101,8 +96,6 @@ class SocioController extends Controller
 
         return view('socios.edit', [
             'socio' => $socio,
-            'empresasDisponibles' => Empresa::query()->orderBy('nombre')->get(['id', 'nombre']),
-            'selectedEmpresas' => old('empresa_ids', $socio->empresas->pluck('id')->all()),
         ]);
     }
 
@@ -130,7 +123,6 @@ class SocioController extends Controller
         }
 
         $socio->update($data);
-        $socio->empresas()->sync($request->input('empresa_ids', []));
 
         return redirect()
             ->route('socios.edit', $socio)
@@ -157,7 +149,6 @@ class SocioController extends Controller
     {
         return $request->validate([
             'estatus' => ['required', 'in:activa,inactiva,inerte'],
-            'puesto' => ['required', 'in:Reprecentante legal,Socio accionario'],
             'nombre' => ['required', 'string', 'max:255'],
             'direccion' => ['required', 'string', 'max:255'],
             'rfc' => ['required', 'string', 'max:13', 'unique:socios,rfc,' . $socioId],
@@ -167,8 +158,6 @@ class SocioController extends Controller
             'csf_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
             'certificado_cer' => ['nullable', 'file', 'extensions:cer', 'max:5120'],
             'llave_key' => ['nullable', 'file', 'extensions:key', 'max:5120'],
-            'empresa_ids' => ['nullable', 'array'],
-            'empresa_ids.*' => ['integer', 'exists:empresas,id'],
         ]);
     }
 

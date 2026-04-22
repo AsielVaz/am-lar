@@ -9,7 +9,6 @@ class Socio extends Model
 {
     protected $fillable = [
         'estatus',
-        'puesto',
         'nombre',
         'direccion',
         'rfc',
@@ -24,6 +23,7 @@ class Socio extends Model
     public function empresas(): BelongsToMany
     {
         return $this->belongsToMany(Empresa::class, 'empresa_socio')
+            ->withPivot('puesto')
             ->withTimestamps()
             ->orderBy('nombre');
     }

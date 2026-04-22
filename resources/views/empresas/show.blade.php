@@ -120,7 +120,7 @@
                     <tbody>
                         @forelse ($empresa->socios as $socio)
                             <tr>
-                                <td>{!! filled($socio->puesto) ? e($socio->puesto) : '<span class="table-missing">No capturado</span>' !!}</td>
+                                <td>{!! filled($socio->pivot?->puesto) ? e($socio->pivot?->puesto) : '<span class="table-missing">No capturado</span>' !!}</td>
                                 <td>
                                     @if (filled($socio->nombre) && ! auth()->user()->isUsuario())
                                         <a href="{{ route('socios.show', $socio) }}" class="document-link">{{ $socio->nombre }}</a>

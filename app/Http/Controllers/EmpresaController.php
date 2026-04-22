@@ -84,7 +84,7 @@ class EmpresaController extends Controller
 
         return view('empresas.edit', [
             'empresa' => $empresa,
-            'sociosDisponibles' => Socio::query()->orderBy('nombre')->get(['id', 'nombre', 'rfc', 'puesto']),
+            'sociosDisponibles' => Socio::query()->orderBy('nombre')->get(['id', 'nombre', 'rfc', 'estatus']),
             'canEditCompanyData' => Auth::user()?->isAdministrador() ?? false,
         ]);
     }
@@ -254,16 +254,23 @@ class EmpresaController extends Controller
         $data = $request->validate([
             'assignment_action' => ['required', 'in:assign,remove'],
             'socio_id' => ['required', 'integer', 'exists:socios,id'],
+            'puesto' => ['required_if:assignment_action,assign', 'nullable', 'in:Reprecentante legal,Socio accionario'],
         ]);
 
         $socio = Socio::findOrFail($data['socio_id']);
 
         if ($data['assignment_action'] === 'assign') {
             $alreadyAssigned = $empresa->socios()->where('socios.id', $socio->id)->exists();
-            $empresa->socios()->syncWithoutDetaching([$socio->id]);
+            $empresa->socios()->syncWithoutDetaching([
+                $socio->id => ['puesto' => $data['puesto']],
+            ]);
+
+            if ($alreadyAssigned) {
+                $empresa->socios()->updateExistingPivot($socio->id, ['puesto' => $data['puesto']]);
+            }
 
             return $alreadyAssigned
-                ? 'El socio ya estaba asignado a esta empresa.'
+                ? 'La P. Fisica ya estaba asignada y su puesto se actualizo correctamente.'
                 : 'El socio se asigno correctamente a la empresa.';
         }
 

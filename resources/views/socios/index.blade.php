@@ -61,7 +61,7 @@
                     type="search"
                     name="search"
                     value="{{ $search }}"
-                    placeholder="Buscar P. Fisicas por nombre, RFC, direccion, puesto o P. Moral"
+                    placeholder="Buscar P. Fisicas por nombre, RFC, direccion o P. Moral"
                     class="panel-search-input"
                 >
                 <input type="hidden" name="estatus" value="{{ $estatus }}">
@@ -78,7 +78,6 @@
                     <tr>
                         <th>Foto</th>
                         <th>Estatus</th>
-                        <th>Puesto</th>
                         <th>Nombre</th>
                         <th>RFC</th>
                         <th>P. Morales</th>
@@ -96,7 +95,6 @@
                                 @endif
                             </td>
                             <td><span class="badge badge-{{ $socio->estatus }}">{{ ucfirst($socio->estatus) }}</span></td>
-                            <td>{{ $socio->puesto }}</td>
                             <td>{{ $socio->nombre }}</td>
                             <td>{{ $socio->rfc }}</td>
                             <td>{{ $socio->empresas_count }}</td>
@@ -123,7 +121,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="empty-state">Todavia no hay P. Fisicas registradas.</td>
+                            <td colspan="6" class="empty-state">Todavia no hay P. Fisicas registradas.</td>
                         </tr>
                     @endforelse
                 </tbody>

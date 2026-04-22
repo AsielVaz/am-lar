@@ -29,10 +29,6 @@
                     <strong><span class="badge badge-{{ $socio->estatus }}">{{ ucfirst($socio->estatus) }}</span></strong>
                 </div>
                 <div class="detail-card">
-                    <span class="detail-label">Puesto</span>
-                    <strong>{{ $socio->puesto }}</strong>
-                </div>
-                <div class="detail-card">
                     <span class="detail-label">RFC</span>
                     <strong>{{ $socio->rfc }}</strong>
                 </div>
@@ -91,6 +87,7 @@
                 <table class="data-table">
                     <thead>
                         <tr>
+                            <th>Puesto</th>
                             <th>P. Moral</th>
                             <th>RFC</th>
                             <th>Estatus</th>
@@ -100,6 +97,7 @@
                     <tbody>
                         @forelse ($socio->empresas as $empresa)
                             <tr>
+                                <td>{!! filled($empresa->pivot?->puesto) ? e($empresa->pivot?->puesto) : '<span class="table-missing">No capturado</span>' !!}</td>
                                 <td>{{ $empresa->nombre }}</td>
                                 <td>{{ $empresa->rfc }}</td>
                                 <td><span class="badge badge-{{ $empresa->estatus }}">{{ ucfirst($empresa->estatus) }}</span></td>
@@ -107,7 +105,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="empty-state">Esta P. Fisica aun no esta asignada a ninguna P. Moral.</td>
+                                <td colspan="5" class="empty-state">Esta P. Fisica aun no esta asignada a ninguna P. Moral.</td>
                             </tr>
                         @endforelse
                     </tbody>

@@ -31,6 +31,7 @@ class Empresa extends Model
     public function socios(): BelongsToMany
     {
         return $this->belongsToMany(Socio::class, 'empresa_socio')
+            ->withPivot('puesto')
             ->withTimestamps()
             ->orderBy('nombre');
     }
