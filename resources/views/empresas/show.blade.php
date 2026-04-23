@@ -102,6 +102,10 @@
                     <span class="detail-label">Registro publico de la propiedad y comercio</span>
                     @include('empresas.partials.document-link', ['archivo' => $documentos?->registro_publico_pdf])
                 </div>
+                <div class="detail-card {{ blank($documentos?->registro_publico_asamblea_pdf) ? 'is-missing' : '' }}">
+                    <span class="detail-label">Registro publico de la asamblea</span>
+                    @include('empresas.partials.document-link', ['archivo' => $documentos?->registro_publico_asamblea_pdf])
+                </div>
             </div>
         </section>
 

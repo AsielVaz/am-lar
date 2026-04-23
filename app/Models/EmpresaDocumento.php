@@ -13,6 +13,7 @@ class EmpresaDocumento extends Model
         'acta_constitutiva_pdf',
         'asamblea_pdf',
         'registro_publico_pdf',
+        'registro_publico_asamblea_pdf',
         'd32_pdf',
         'd32_vigencia_inicio',
         'sello_sat_key',

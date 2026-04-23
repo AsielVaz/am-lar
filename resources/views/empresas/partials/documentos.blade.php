@@ -34,6 +34,15 @@
             @include('empresas.partials.document-link', ['archivo' => $documentos?->registro_publico_pdf])
         </div>
 
+        <div class="field-group {{ blank($documentos?->registro_publico_asamblea_pdf) ? 'is-missing' : '' }}">
+            <label for="registro_publico_asamblea_pdf">Registro publico de la asamblea (PDF)</label>
+            <input id="registro_publico_asamblea_pdf" type="file" name="registro_publico_asamblea_pdf" accept=".pdf" class="{{ blank($documentos?->registro_publico_asamblea_pdf) ? 'field-input-missing' : '' }}">
+            @error('registro_publico_asamblea_pdf')
+                <small class="field-error">{{ $message }}</small>
+            @enderror
+            @include('empresas.partials.document-link', ['archivo' => $documentos?->registro_publico_asamblea_pdf])
+        </div>
+
         <div class="field-group {{ blank($documentos?->d32_pdf) ? 'is-missing' : '' }}">
             <label for="d32_pdf">32D (PDF)</label>
             <input id="d32_pdf" type="file" name="d32_pdf" accept=".pdf" class="{{ blank($documentos?->d32_pdf) ? 'field-input-missing' : '' }}">
