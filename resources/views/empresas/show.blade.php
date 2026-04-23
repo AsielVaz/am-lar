@@ -91,8 +91,12 @@
 
             <div class="detail-grid">
                 <div class="detail-card {{ blank($documentos?->acta_constitutiva_pdf) ? 'is-missing' : '' }}">
-                    <span class="detail-label">Acta constitutiva y asambleas</span>
+                    <span class="detail-label">Acta constitutiva</span>
                     @include('empresas.partials.document-link', ['archivo' => $documentos?->acta_constitutiva_pdf])
+                </div>
+                <div class="detail-card {{ blank($documentos?->asamblea_pdf) ? 'is-missing' : '' }}">
+                    <span class="detail-label">Asamblea</span>
+                    @include('empresas.partials.document-link', ['archivo' => $documentos?->asamblea_pdf])
                 </div>
                 <div class="detail-card {{ blank($documentos?->registro_publico_pdf) ? 'is-missing' : '' }}">
                     <span class="detail-label">Registro publico de la propiedad y comercio</span>

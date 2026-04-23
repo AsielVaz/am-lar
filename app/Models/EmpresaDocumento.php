@@ -11,6 +11,7 @@ class EmpresaDocumento extends Model
     protected $fillable = [
         'empresa_id',
         'acta_constitutiva_pdf',
+        'asamblea_pdf',
         'registro_publico_pdf',
         'd32_pdf',
         'd32_vigencia_inicio',

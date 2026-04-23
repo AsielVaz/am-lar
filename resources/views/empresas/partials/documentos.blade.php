@@ -8,12 +8,21 @@
 
     <div class="section-grid">
         <div class="field-group {{ blank($documentos?->acta_constitutiva_pdf) ? 'is-missing' : '' }}">
-            <label for="acta_constitutiva_pdf">Acta constitutiva y sus asambleas (PDF)</label>
+            <label for="acta_constitutiva_pdf">Acta constitutiva (PDF)</label>
             <input id="acta_constitutiva_pdf" type="file" name="acta_constitutiva_pdf" accept=".pdf" class="{{ blank($documentos?->acta_constitutiva_pdf) ? 'field-input-missing' : '' }}">
             @error('acta_constitutiva_pdf')
                 <small class="field-error">{{ $message }}</small>
             @enderror
             @include('empresas.partials.document-link', ['archivo' => $documentos?->acta_constitutiva_pdf])
+        </div>
+
+        <div class="field-group {{ blank($documentos?->asamblea_pdf) ? 'is-missing' : '' }}">
+            <label for="asamblea_pdf">Asamblea (PDF)</label>
+            <input id="asamblea_pdf" type="file" name="asamblea_pdf" accept=".pdf" class="{{ blank($documentos?->asamblea_pdf) ? 'field-input-missing' : '' }}">
+            @error('asamblea_pdf')
+                <small class="field-error">{{ $message }}</small>
+            @enderror
+            @include('empresas.partials.document-link', ['archivo' => $documentos?->asamblea_pdf])
         </div>
 
         <div class="field-group {{ blank($documentos?->registro_publico_pdf) ? 'is-missing' : '' }}">

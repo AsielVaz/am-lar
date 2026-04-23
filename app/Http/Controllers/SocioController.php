@@ -154,10 +154,10 @@ class SocioController extends Controller
             'rfc' => ['required', 'string', 'max:13', 'unique:socios,rfc,' . $socioId],
             'contrasena' => ['nullable', 'string', 'max:255'],
             'foto_usuario' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
-            'ine_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
-            'csf_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
-            'certificado_cer' => ['nullable', 'file', 'extensions:cer', 'max:5120'],
-            'llave_key' => ['nullable', 'file', 'extensions:key', 'max:5120'],
+            'ine_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:524288'],
+            'csf_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:524288'],
+            'certificado_cer' => ['nullable', 'file', 'extensions:cer', 'max:524288'],
+            'llave_key' => ['nullable', 'file', 'extensions:key', 'max:524288'],
         ]);
     }
 

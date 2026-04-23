@@ -192,16 +192,17 @@ class EmpresaController extends Controller
     protected function documentRules(): array
     {
         return [
-            'acta_constitutiva_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
-            'registro_publico_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
-            'd32_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
-            'sello_sat_key' => ['nullable', 'file', 'extensions:key', 'max:5120'],
+            'acta_constitutiva_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:524288'],
+            'asamblea_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:524288'],
+            'registro_publico_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:524288'],
+            'd32_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:524288'],
+            'sello_sat_key' => ['nullable', 'file', 'extensions:key', 'max:524288'],
             'sello_sat_key_contrasena' => ['nullable', 'string', 'max:255'],
-            'sello_sat_cer' => ['nullable', 'file', 'extensions:cer', 'max:5120'],
-            'fiel_key' => ['nullable', 'file', 'extensions:key', 'max:5120'],
+            'sello_sat_cer' => ['nullable', 'file', 'extensions:cer', 'max:524288'],
+            'fiel_key' => ['nullable', 'file', 'extensions:key', 'max:524288'],
             'fiel_key_contrasena' => ['nullable', 'string', 'max:255'],
-            'fiel_cer' => ['nullable', 'file', 'extensions:cer', 'max:5120'],
-            'comprobante_domicilio_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
+            'fiel_cer' => ['nullable', 'file', 'extensions:cer', 'max:524288'],
+            'comprobante_domicilio_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:524288'],
         ];
     }
 
@@ -343,6 +344,7 @@ class EmpresaController extends Controller
     {
         return [
             'acta_constitutiva_pdf',
+            'asamblea_pdf',
             'registro_publico_pdf',
             'd32_pdf',
             'sello_sat_key',
